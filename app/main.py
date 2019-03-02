@@ -267,7 +267,7 @@ def next_move(data, gameboard, me, others, state):
     # print me
     # print "Available Directions: "
     for d in dirs:
-        # print "  " + d
+        print "  " + d
     if len(dirs) == 0:
         move = 'left' # :(
 
