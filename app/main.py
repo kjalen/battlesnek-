@@ -236,6 +236,8 @@ def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
         if len(dirs) == 0:
             move = 'left'
             return move
+        elif len(dirs) > 0:
+            return random.choice(dirs)
         else:
             move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
             return move
@@ -450,9 +452,11 @@ def move():
     data = bottle.request.json
     gameboard, me, others = init_gameboard(data)
     state = determine_state(data, me, others)
-    # state = FIND_FOOD
+    state = TURTLE
 
-    return next_move(data, gameboard, me, others, state)
+    move = next_move(data, gameboard, me, others, state)
+    print(move)
+    return move
 
 
 @bottle.post('/end')
