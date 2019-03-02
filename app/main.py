@@ -252,7 +252,7 @@ def next_move(data, gameboard, me, others, state):
     dirs_weights = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
     avoid_wall_dir_filter(me, width, height, dirs)
     avoid_self_dir_filter(me, dirs)
-    # avoid_others_dir_filter(me, others, dirs)
+    avoid_others_dir_filter(me, others, dirs)
     # look_ahead(data, me, others, dirs, dirs_weights)
 
     print dirs_weights
@@ -300,15 +300,6 @@ def avoid_self_dir_filter(me, dirs):
     my_x = my_coord['x']
     my_y = my_coord['y']
 
-    print "self filter"
-    print my_coord
-    print me.is_body({'y':my_y, 'x':my_x-1})
-    print me.is_body({'y':my_y, 'x':my_x+1})
-    print me.is_body({'y':my_y-1, 'x':my_x})
-    print me.is_body({'y':my_y+1, 'x':my_x})
-    print('body')
-    print(me.body)
-
     if 'left' in dirs and me.is_body({'y':my_y, 'x':my_x-1}):
         dirs.remove('left')
 
@@ -327,16 +318,16 @@ def avoid_others_dir_filter(me, others, dirs):
     my_x = my_coord['x']
     my_y = my_coord['y']
 
-    if 'left' in dirs and others.is_body_or_head([my_x - 1, my_y]):
+    if 'left' in dirs and others.is_body_or_head({'y':my_y, 'x':my_x-1}):
         dirs.remove('left')
 
-    if 'right' in dirs and others.is_body_or_head([my_x + 1, my_y]):
+    if 'right' in dirs and others.is_body_or_head({'y':my_y, 'x':my_x+1}):
         dirs.remove('right')
 
-    if 'up' in dirs and others.is_body_or_head([my_x, my_y - 1]):
+    if 'up' in dirs and others.is_body_or_head({'y':my_y-1, 'x':my_x}):
         dirs.remove('up')
 
-    if 'down' in dirs and others.is_body_or_head([my_x, my_y + 1]):
+    if 'down' in dirs and others.is_body_or_head({'y':my_y+1, 'x':my_x}):
         dirs.remove('down')
 
 
