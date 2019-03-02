@@ -133,7 +133,7 @@ def init_gameboard(data):
                     gameboard[coord['x']][coord['y']] = THEM_BODY
                     others.add_body(coord)
 
-    # print gameboard
+    print gameboard
     return gameboard, me, others
 
 
