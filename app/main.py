@@ -181,27 +181,28 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
         if me.head['y'] - huff_food['y'] < 0:
             if 'down' in dirs:
                 move = 'down'
-            else:
-                move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
+            # else:
+            #     move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
         ## If the food is above you, go up
         else:
             if 'up' in dirs:
                 move = 'up'
-            else:
-                move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
+            # else:
+            #     move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
     ## Adjust X coord if you're not on the same X
     else:
         if me.head['x'] - huff_food['x'] < 0:
             if 'right' in dirs:
                 move = 'right'
-            else:
-                move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
+            # else:
+            #     move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
         else:
             if 'left' in dirs:
                 move = 'left'
-            else:
-                move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
-
+            # else:
+            #     move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
+    if move not in dirs:
+        move = random.choice(dirs)
     return move
 
 
@@ -443,7 +444,8 @@ def move():
     data = bottle.request.json
     gameboard, me, others = init_gameboard(data)
     state = determine_state(data, me, others)
-    state = TURTLE
+    print('state is: ' + str(state))
+    # state = FIND_FOOD
 
     move = next_move(data, gameboard, me, others, state)
     print(move)
