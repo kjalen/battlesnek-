@@ -171,7 +171,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
 
     ## Find optimal food
     for food in data['food']:
-        temp_dist = math.fabs(food[0] - me.head[0]) + math.fabs(food[1] - me.head[1])
+        temp_dist = math.fabs(food['x'] - me.head['x']) + math.fabs(food['y'] - me.head['y'])
         if temp_dist < huff_dist_to_food:
             huff_food = food
             huff_dist_to_food = temp_dist
@@ -179,7 +179,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
     ## If you and the food are on the same X
     if me.head[0] - huff_food[0] == 0:
         ## If the food is below you, go down
-        if me.head[1] - huff_food[1] < 0:
+        if me.head['y'] - huff_food['y'] < 0:
             if 'down' in dirs:
                 move = 'down'
             else:
@@ -192,7 +192,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
                 move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
     ## Adjust X coord if you're not on the same X
     else:
-        if me.head[0] - huff_food[0] < 0:
+        if me.head['x'] - huff_food['x'] < 0:
             if 'right' in dirs:
                 move = 'right'
             else:
