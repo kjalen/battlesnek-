@@ -248,7 +248,7 @@ def next_move(data, gameboard, me, others, state):
 
     dirs = [d for d in directions]
     dirs_weights = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
-    avoid_wall_dir_filter(me, width, height, dirs)
+    # avoid_wall_dir_filter(me, width, height, dirs)
     avoid_self_dir_filter(me, dirs)
     # avoid_others_dir_filter(me, others, dirs)
     # look_ahead(data, me, others, dirs, dirs_weights)
@@ -293,6 +293,9 @@ def avoid_wall_dir_filter(me, width, height, dirs):
 
 def avoid_self_dir_filter(me, dirs):
     my_coord = me.head
+    print "self filter"
+    print my_coord
+    print me.is_body([my_x - 1, my_y])
     my_x = my_coord['y']
     my_y = my_coord['x']
 
