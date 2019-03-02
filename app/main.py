@@ -293,11 +293,12 @@ def avoid_wall_dir_filter(me, width, height, dirs):
 
 def avoid_self_dir_filter(me, dirs):
     my_coord = me.head
+    my_x = my_coord['x']
+    my_y = my_coord['y']
+
     print "self filter"
     print my_coord
     print me.is_body([my_x - 1, my_y])
-    my_x = my_coord['y']
-    my_y = my_coord['x']
 
     if 'left' in dirs and me.is_body([my_x - 1, my_y]):
         dirs.remove('left')
