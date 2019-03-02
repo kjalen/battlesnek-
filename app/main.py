@@ -332,7 +332,6 @@ def avoid_others_dir_filter(me, others, dirs):
 
 
 def look_ahead(data, me, others, dirs, dirs_weights):
-    data = data['board']
     width = data['width']
     height = data['height']
 
