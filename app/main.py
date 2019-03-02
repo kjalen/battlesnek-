@@ -99,6 +99,11 @@ def init_gameboard(data):
     width = data['width']
     height = data['height']
 
+    print "Look here dummy"
+    print data
+    print width
+    print height
+
     gameboard = np.zeros((width, height))
     me = Snake()
     others = Snakes()
@@ -252,17 +257,17 @@ def next_move(data, gameboard, me, others, state):
     avoid_others_dir_filter(me, others, dirs)
     look_ahead(data, me, others, dirs, dirs_weights)
 
-    print dirs_weights
+    # print dirs_weights
 
     if state == TURTLE:
         move = state_turtle(data, gameboard, me, others, dirs, dirs_weights)
     if state == FIND_FOOD:
         move = state_find_food(data, gameboard, me, others, dirs, dirs_weights)
 
-    print me
-    print "Available Directions: "
+    # print me
+    # print "Available Directions: "
     for d in dirs:
-        print "  " + d
+        # print "  " + d
     if len(dirs) == 0:
         move = 'left' # :(
 
