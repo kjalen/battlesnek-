@@ -113,24 +113,24 @@ def init_gameboard(data):
             me.set_health(snake['health'])
             for i, coord in enumerate(snake['body']):
                 if i == 0:
-                    gameboard[coord[0]][coord[1]] = HUFF_HEAD
+                    gameboard[coord['x']][coord['y']] = HUFF_HEAD
                     me.set_head(coord)
                 elif i == (len(snake['body']) - 1):
-                    gameboard[coord[0]][coord[1]] = HUFF_TAIL
+                    gameboard[coord['x']][coord['y']] = HUFF_TAIL
                     me.set_tail(coord)
                 else:
-                    gameboard[coord[0]][coord[1]] = HUFF_BODY
+                    gameboard[coord['x']][coord['y']] = HUFF_BODY
                     me.add_body(coord)
         else:
             for i, coord in enumerate(snake['body']):
                 if i == 0:
-                    gameboard[coord[0]][coord[1]] = THEM_HEAD
+                    gameboard[coord['x']][coord['y']] = THEM_HEAD
                     others.add_head(coord)
                 elif i == (len(snake['body']) - 1):
-                    gameboard[coord[0]][coord[1]] = THEM_TAIL
+                    gameboard[coord['x']][coord['y']] = THEM_TAIL
                     others.add_tail(coord)
                 else:
-                    gameboard[coord[0]][coord[1]] = THEM_BODY
+                    gameboard[coord['x']][coord['y']] = THEM_BODY
                     others.add_body(coord)
 
     # print gameboard
@@ -214,8 +214,8 @@ def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
     bound_y = data['height'] - 5
 
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     move = random.choice(dirs)
 
@@ -279,8 +279,8 @@ def next_move(data, gameboard, me, others, state):
 
 def avoid_wall_dir_filter(me, width, height, dirs):
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if my_x == 0:
         dirs.remove('left')
@@ -297,8 +297,8 @@ def avoid_wall_dir_filter(me, width, height, dirs):
 
 def avoid_self_dir_filter(me, dirs):
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if 'left' in dirs and me.is_body([my_x - 1, my_y]):
         dirs.remove('left')
@@ -315,8 +315,8 @@ def avoid_self_dir_filter(me, dirs):
 
 def avoid_others_dir_filter(me, others, dirs):
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if 'left' in dirs and others.is_body_or_head([my_x - 1, my_y]):
         dirs.remove('left')
@@ -337,8 +337,8 @@ def look_ahead(data, me, others, dirs, dirs_weights):
     height = data['height']
 
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     new_me = Snake()
 
@@ -377,8 +377,8 @@ def look_ahead(data, me, others, dirs, dirs_weights):
 
 def goto_food(me, dirs, data):
     my_coord = me.head
-    my_x = my_coord[0]
-    my_y = my_coord[1]
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if 'left' in dirs:
         pass
