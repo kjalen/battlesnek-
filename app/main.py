@@ -176,9 +176,9 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
             huff_dist_to_food = temp_dist
 
     ## If you and the food are on the same X
-    if me.head['y'] - huff_food['y'] == 0:
+    if me.head['x'] - huff_food['x'] == 0:
         ## If the food is below you, go down
-        if me.head['x'] - huff_food['x'] < 0:
+        if me.head['y'] - huff_food['y'] < 0:
             if 'down' in dirs:
                 move = 'down'
             else:
@@ -191,7 +191,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
                 move = max(dirs_weights.iteritems(), key=operator.itemgetter(1))[0]
     ## Adjust X coord if you're not on the same X
     else:
-        if me.head['y'] - huff_food['y'] < 0:
+        if me.head['x'] - huff_food['x'] < 0:
             if 'right' in dirs:
                 move = 'right'
             else:
@@ -210,8 +210,8 @@ def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
     bound_y = data['height'] - 5
 
     my_coord = me.head
-    my_x = my_coord['y']
-    my_y = my_coord['x']
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     move = random.choice(dirs)
 
@@ -250,8 +250,8 @@ def next_move(data, gameboard, me, others, state):
     dirs_weights = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
     avoid_wall_dir_filter(me, width, height, dirs)
     avoid_self_dir_filter(me, dirs)
-    avoid_others_dir_filter(me, others, dirs)
-    look_ahead(data, me, others, dirs, dirs_weights)
+    # avoid_others_dir_filter(me, others, dirs)
+    # look_ahead(data, me, others, dirs, dirs_weights)
 
     print dirs_weights
 
@@ -311,8 +311,8 @@ def avoid_self_dir_filter(me, dirs):
 
 def avoid_others_dir_filter(me, others, dirs):
     my_coord = me.head
-    my_x = my_coord['y']
-    my_y = my_coord['x']
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if 'left' in dirs and others.is_body_or_head([my_x - 1, my_y]):
         dirs.remove('left')
@@ -332,8 +332,8 @@ def look_ahead(data, me, others, dirs, dirs_weights):
     height = data['height']
 
     my_coord = me.head
-    my_x = my_coord['y']
-    my_y = my_coord['x']
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     new_me = Snake()
 
@@ -372,8 +372,8 @@ def look_ahead(data, me, others, dirs, dirs_weights):
 
 def goto_food(me, dirs, data):
     my_coord = me.head
-    my_x = my_coord['y']
-    my_y = my_coord['x']
+    my_x = my_coord['x']
+    my_y = my_coord['y']
 
     if 'left' in dirs:
         pass
