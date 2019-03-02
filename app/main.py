@@ -108,24 +108,24 @@ def init_gameboard(data):
             me.set_health(snake['health'])
             for i, coord in enumerate(snake['body']):
                 if i == 0:
-                    gameboard[coord['x']][coord['y']] = HUFF_HEAD
+                    gameboard[coord['y']][coord['x']] = HUFF_HEAD
                     me.set_head(coord)
                 elif i == (len(snake['body']) - 1):
-                    gameboard[coord['x']][coord['y']] = HUFF_TAIL
+                    gameboard[coord['y']][coord['x']] = HUFF_TAIL
                     me.set_tail(coord)
                 else:
-                    gameboard[coord['x']][coord['y']] = HUFF_BODY
+                    gameboard[coord['y']][coord['x']] = HUFF_BODY
                     me.add_body(coord)
         else:
             for i, coord in enumerate(snake['body']):
                 if i == 0:
-                    gameboard[coord['x']][coord['y']] = THEM_HEAD
+                    gameboard[coord['y']][coord['x']] = THEM_HEAD
                     others.add_head(coord)
                 elif i == (len(snake['body']) - 1):
-                    gameboard[coord['x']][coord['y']] = THEM_TAIL
+                    gameboard[coord['y']][coord['x']] = THEM_TAIL
                     others.add_tail(coord)
                 else:
-                    gameboard[coord['x']][coord['y']] = THEM_BODY
+                    gameboard[coord['y']][coord['x']] = THEM_BODY
                     others.add_body(coord)
 
     print gameboard
