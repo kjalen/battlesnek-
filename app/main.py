@@ -167,7 +167,11 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
 
     temp_dist = 0
     huff_dist_to_food = 9999
-    huff_food = data['food'][0]
+
+    if (len(data['food']) > 0):
+        huff_food = data['food'][0]
+    else:
+        return random.choice(dirs)
 
     ## Find optimal food
     for food in data['food']:
