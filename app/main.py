@@ -94,6 +94,8 @@ class Snakes:
 
 
 def init_gameboard(data):
+    you = data['you']
+    data = data['board']
     width = data['width']
     height = data['height']
 
@@ -102,24 +104,24 @@ def init_gameboard(data):
     others = Snakes()
 
     for snake in data['snakes']:
-        if snake['id'] == data['you']:
-            me.set_health(snake['health_points'])
-            for i, coord in enumerate(snake['coords']):
+        if snake['id'] == you['id']:
+            me.set_health(snake['health'])
+            for i, coord in enumerate(snake['body']):
                 if i == 0:
                     gameboard[coord[0]][coord[1]] = HUFF_HEAD
                     me.set_head(coord)
-                elif i == (len(snake['coords']) - 1):
+                elif i == (len(snake['body']) - 1):
                     gameboard[coord[0]][coord[1]] = HUFF_TAIL
                     me.set_tail(coord)
                 else:
                     gameboard[coord[0]][coord[1]] = HUFF_BODY
                     me.add_body(coord)
         else:
-            for i, coord in enumerate(snake['coords']):
+            for i, coord in enumerate(snake['body']):
                 if i == 0:
                     gameboard[coord[0]][coord[1]] = THEM_HEAD
                     others.add_head(coord)
-                elif i == (len(snake['coords']) - 1):
+                elif i == (len(snake['body']) - 1):
                     gameboard[coord[0]][coord[1]] = THEM_TAIL
                     others.add_tail(coord)
                 else:
@@ -131,6 +133,7 @@ def init_gameboard(data):
 
 
 def determine_state(data, me, others):
+    data = data['board']
 
     state = TURTLE
 
@@ -154,6 +157,7 @@ def determine_state(data, me, others):
 
 
 def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
+    data = data['board']
 
     move = random.choice(dirs)
 
@@ -200,6 +204,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
 
 
 def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
+    data = data['board']
     bound_x = data['width'] - 5
     bound_y = data['height'] - 5
 
@@ -236,6 +241,7 @@ def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
 
 
 def next_move(data, gameboard, me, others, state):
+    data = data['board']
     width = data['width']
     height = data['height']
 
@@ -321,6 +327,7 @@ def avoid_others_dir_filter(me, others, dirs):
 
 
 def look_ahead(data, me, others, dirs, dirs_weights):
+    data = data['board']
     width = data['width']
     height = data['height']
 
