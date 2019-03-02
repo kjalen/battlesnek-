@@ -162,8 +162,6 @@ def determine_state(data, me, others):
 
 
 def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
-    data = data['board']
-
     move = random.choice(dirs)
 
 
@@ -209,7 +207,6 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
 
 
 def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
-    data = data['board']
     bound_x = data['width'] - 5
     bound_y = data['height'] - 5
 
