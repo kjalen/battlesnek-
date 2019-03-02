@@ -177,7 +177,7 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
             huff_dist_to_food = temp_dist
 
     ## If you and the food are on the same X
-    if me.head[0] - huff_food[0] == 0:
+    if me.head['x'] - huff_food['x'] == 0:
         ## If the food is below you, go down
         if me.head['y'] - huff_food['y'] < 0:
             if 'down' in dirs:
