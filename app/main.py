@@ -128,7 +128,7 @@ def init_gameboard(data):
                     gameboard[coord['y']][coord['x']] = THEM_BODY
                     others.add_body(coord)
 
-    print(gameboard)
+    #print(gameboard)
     return gameboard, me, others
 
 
@@ -169,8 +169,11 @@ def state_find_food(data, gameboard, me, others, dirs, dirs_weights):
         return random.choice(dirs)
 
     ## Find optimal food
+    #print('I am at (' + str(me.head['x']) + ', ' + str(me.head['y']) + ')')
     for food in data['food']:
-        temp_dist = math.fabs(food['x'] - me.head['x']) + math.fabs(food['y'] - me.head['y'])
+        ## distance formula
+        temp_dist = round(math.sqrt(math.pow(food['x'] - me.head['x'], 2) + math.pow(food['y'] - me.head['y'], 2)))
+        #print('I am ' + str(temp_dist) + ' squares away from the food at (' + str(food['x']) + ', ' + str(food['y']) + ')')
         if temp_dist < huff_dist_to_food:
             huff_food = food
             huff_dist_to_food = temp_dist
@@ -254,6 +257,7 @@ def next_move(data, gameboard, me, others, state):
     avoid_wall_dir_filter(me, width, height, dirs)
     avoid_self_dir_filter(me, dirs)
     avoid_others_dir_filter(me, others, dirs)
+
     # look_ahead(data, me, others, dirs, dirs_weights)
 
     if state == TURTLE:
@@ -329,6 +333,33 @@ def avoid_others_dir_filter(me, others, dirs):
     if 'down' in dirs and others.is_body_or_head({'y':my_y+1, 'x':my_x}):
         dirs.remove('down')
 
+def avoid_hoh_filter(me, others, dirs):
+    my_coord = me.head
+    my_x = my_coord['x']
+    my_y = my_coord['y']
+
+    danger_points_up = [[0,-2],[-1,1],[1,-1]]
+    danger_points_down = [[-1,1],[0,2],[1,1]]
+    danger_points_left = [[-1,1],[-2,0],[-1,1]]
+    danger_points_right = [[1,1],[2,0],[1,1]]
+
+    for dir in dirs:
+        if dir == 'up':
+            for point in danger_points_up:
+                if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
+                    print('in danger from above!')
+        if dir == 'down':
+            for point in danger_points_down:
+                if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
+                    print('in danger from below!')
+        if dir == 'left':
+            for point in danger_points_left:
+                if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
+                    print('in danger from the left!')
+        if dir == 'right':
+            for point in danger_points_right:
+                if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
+                    print('in danger from the right!')
 
 def look_ahead(data, me, others, dirs, dirs_weights):
     width = data['width']
