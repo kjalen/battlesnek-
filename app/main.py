@@ -219,16 +219,16 @@ def state_turtle(data, gameboard, me, others, dirs, dirs_weights):
 
     move = random.choice(dirs)
 
-    if my_x < (bound_x - 2):
+    if my_x < (bound_x - 2) and 'right' in dirs:
         move = 'right'
         pass
-    elif my_x > (bound_x +2):
+    elif my_x > (bound_x +2) and 'left' in dirs:
         move = 'left'
         pass
-    elif my_y < (bound_y - 2):
+    elif my_y < (bound_y - 2) and 'down' in dirs:
         move = 'down'
         pass
-    elif my_y > (bound_y +2):
+    elif my_y > (bound_y +2) and 'up' in dirs:
         move = 'up'
         pass
     else:
@@ -257,6 +257,7 @@ def next_move(data, gameboard, me, others, state):
     avoid_wall_dir_filter(me, width, height, dirs)
     avoid_self_dir_filter(me, dirs)
     avoid_others_dir_filter(me, others, dirs)
+    avoid_hoh_filter(me, others, dirs)
 
     # look_ahead(data, me, others, dirs, dirs_weights)
 
@@ -273,8 +274,7 @@ def next_move(data, gameboard, me, others, state):
         move = 'left' # :(
 
     return {
-        'move': move,
-        'taunt': 'Point me!'
+        'move': move
     }
 
 
@@ -338,28 +338,36 @@ def avoid_hoh_filter(me, others, dirs):
     my_x = my_coord['x']
     my_y = my_coord['y']
 
-    danger_points_up = [[0,-2],[-1,1],[1,-1]]
+    danger_points_up = [[0,-2],[-1,-1],[1,-1]]
     danger_points_down = [[-1,1],[0,2],[1,1]]
-    danger_points_left = [[-1,1],[-2,0],[-1,1]]
-    danger_points_right = [[1,1],[2,0],[1,1]]
+    danger_points_left = [[-1,1],[-2,0],[-1,-1]]
+    danger_points_right = [[1,1],[2,0],[1,-1]]
 
     for dir in dirs:
         if dir == 'up':
             for point in danger_points_up:
                 if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
                     print('in danger from above!')
+                    dirs.remove('up')
+                    
         if dir == 'down':
             for point in danger_points_down:
                 if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
                     print('in danger from below!')
+                    dirs.remove('down')
+                    
         if dir == 'left':
             for point in danger_points_left:
                 if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
                     print('in danger from the left!')
+                    dirs.remove('left')
+                    
         if dir == 'right':
             for point in danger_points_right:
                 if others.is_head({'x':my_x + point[0], 'y':my_y + point[1]}):
                     print('in danger from the right!')
+                    dirs.remove('right')
+                    
 
 def look_ahead(data, me, others, dirs, dirs_weights):
     width = data['width']
@@ -403,24 +411,6 @@ def look_ahead(data, me, others, dirs, dirs_weights):
             avoid_others_dir_filter(me, others, weights)
             dirs_weights['down'] = len(weights)
 
-
-def goto_food(me, dirs, data):
-    my_coord = me.head
-    my_x = my_coord['x']
-    my_y = my_coord['y']
-
-    if 'left' in dirs:
-        pass
-
-    if 'right' in dirs:
-        pass
-
-    if 'up' in dirs:
-        pass
-
-    if 'down' in dirs:
-        pass
-
 @bottle.route('/')
 def index():
     return '''
@@ -457,7 +447,8 @@ def start():
     """
     print(json.dumps(data))
 
-    color = "#00FF00"
+    ##color = "#00FF00"
+    color = "#0000FF" #blue
 
     return start_response(color)
 
@@ -473,10 +464,11 @@ def move():
     data = bottle.request.json
     gameboard, me, others = init_gameboard(data)
     state = determine_state(data, me, others)
-    print('state is: ' + str(state))
+    #print('state is: ' + str(state))
     # state = FIND_FOOD
 
     move = next_move(data, gameboard, me, others, state)
+    print(data['turn'])
     print(move)
     return move
 
